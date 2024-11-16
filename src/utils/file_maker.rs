@@ -139,16 +139,15 @@ impl FileMaker {
         let application_pids_path =
             self.create_path_for_name(&self.application_path, &"pids".to_string())?;
 
-        let pid_dir_in_fs =
-            self.create_dir_if_dont_exists(&application_pids_path, CopoEntity::Application)?;
+        let _ = self.create_dir_if_dont_exists(&application_pids_path, CopoEntity::Application)?;
 
-        let dir_entries = match fs::read_dir(&pid_dir_in_fs) {
+        let dir_entries = match fs::read_dir(&application_pids_path) {
             Ok(iter) => iter,
             Err(_) => {
                 return Err(CopoFileError {
                     entity: CopoEntity::Application,
                     error: CopoFileErrors::CouldNotReadDir(
-                        pid_dir_in_fs.to_string_lossy().to_string(),
+                        application_pids_path.to_string_lossy().to_string(),
                     ),
                 });
             }
@@ -161,7 +160,7 @@ impl FileMaker {
                     return Err(CopoFileError {
                         entity: CopoEntity::Application,
                         error: CopoFileErrors::CouldNotReadDir(
-                            pid_dir_in_fs.to_string_lossy().to_string(),
+                            application_pids_path.to_string_lossy().to_string(),
                         ),
                     });
                 }
@@ -206,7 +205,7 @@ impl FileMaker {
             }
         }
 
-        Ok(pid_dir_in_fs)
+        Ok(application_pids_path)
     }
 
     fn create_or_return_logs_dir(&self) -> CopoFileResult<PathBuf> {
@@ -256,8 +255,8 @@ impl FileMaker {
             prc_name: process_name.to_string(),
             prc_dir: process_path_in_fs,
             prc_stdin: stdio_paths[0].to_path_buf(),
-            src_stdout: stdio_paths[1].to_path_buf(),
-            src_stderr: stdio_paths[1].to_path_buf(),
+            prc_stdout: stdio_paths[1].to_path_buf(),
+            prc_stderr: stdio_paths[1].to_path_buf(),
         })
     }
 

@@ -1,7 +1,7 @@
 mod commom;
 mod entities;
 mod utils;
-use entities::Process;
+use entities::{orchestrator, Orchestrator, Process};
 use utils::{parse_definition, show_err, FileMaker};
 
 fn main() {
@@ -25,7 +25,29 @@ fn main() {
 
     let mut processes: Vec<Process> = vec![];
 
-    for prc_dir in file_making_result.prc_paths{
-        let prc_def = definition.processes
+    for prc_dir in file_making_result.prc_paths {
+        let prc_def = match definition
+            .processes
+            .iter()
+            .find(|prc| prc.name == prc_dir.prc_name)
+        {
+            Some(def) => def,
+            None => todo!(),
+        };
+
+        processes.push(Process::new(prc_def.clone(), &prc_dir));
     }
+
+    let mut orchestrator =
+        Orchestrator::new(processes, file_making_result.pids_path, definition.context);
+
+    match orchestrator.spawn("Node test".to_string()) {
+        Ok(_) => (),
+        Err(e) => show_err(Box::from(e), 1),
+    };
+
+    match orchestrator.spawn("Node test 2".to_string()) {
+        Ok(_) => (),
+        Err(e) => show_err(Box::from(e), 1),
+    };
 }

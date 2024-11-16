@@ -25,7 +25,7 @@ impl std::fmt::Display for CopoDefinitionError {
 
         write!(
             f,
-            "[DEFINITION ERROR] -> {}\n  {}\n  [HINT] {}",
+            "[DEFINITION ERROR] -> [{}]\n  {}\n  [HINT] {}",
             error_strs[0], error_strs[1], error_strs[2]
         )
     }

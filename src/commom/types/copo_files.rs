@@ -1,12 +1,12 @@
 use std::path::PathBuf;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ProcessDir {
     pub prc_name: String,
     pub prc_dir: PathBuf,
     pub prc_stdin: PathBuf,
-    pub src_stdout: PathBuf,
-    pub src_stderr: PathBuf,
+    pub prc_stdout: PathBuf,
+    pub prc_stderr: PathBuf,
 }
 
 #[derive(Debug)]

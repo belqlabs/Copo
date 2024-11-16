@@ -5,6 +5,7 @@ name="Teste"
 name = "Node test"
 executable_path = "node"
 file_path = "index.js"
+args=["1"]
 depends_on = [""]
 trigger_type = "OnStart"
 trygger_definition = "None"
@@ -12,6 +13,7 @@ trygger_definition = "None"
 [[processes]]
 name = "Node test 2"
 executable_path = "node"
+args=["2"]
 file_path = "index.js"
 depends_on = [""]
 trigger_type = "OnStart"
